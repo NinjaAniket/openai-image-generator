@@ -32,14 +32,17 @@ const CreatePost = () => {
 			setLoading(true);
 
 			try {
-				const response = await fetch("http://localhost:8080/api/v1/post", {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-						"Access-Control-Allow-Origin": "*",
-					},
-					body: JSON.stringify(form),
-				});
+				const response = await fetch(
+					"https://openai-image-generator-server.onrender.com/api/v1/post",
+					{
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+							"Access-Control-Allow-Origin": "*",
+						},
+						body: JSON.stringify(form),
+					}
+				);
 				await response.json();
 				navigate("/");
 			} catch (e) {
@@ -58,13 +61,16 @@ const CreatePost = () => {
 				setGeneratingImg(true);
 
 				if (form.photo) setForm({ ...form, photo: "" });
-				const response = await fetch("http://localhost:8080/api/v1/ai", {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({ prompt: form.prompt }),
-				});
+				const response = await fetch(
+					"https://openai-image-generator-server.onrender.com/api/v1/ai",
+					{
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify({ prompt: form.prompt }),
+					}
+				);
 
 				const data = await response.json();
 				setForm({ ...form, photo: `data:image/jpeg;base64,${data.photo}` });
